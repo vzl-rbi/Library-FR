@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
@@ -30,7 +30,10 @@ const EditBook = () => {
     Object.entries(data).forEach(([Key, value]) => {
       formData.append(Key, value);
     });
-    formData.append("image", image);
+    if (image) {
+      formData.append("image", image);
+    }
+
     try {
       await axios.patch(`http://localhost:8000/book/${id}`, formData, {
         headers: {
@@ -38,12 +41,27 @@ const EditBook = () => {
         },
       });
 
-      navigate("/");
+      navigate(`/book/${id}`);
     } catch (error) {
       console.error(error);
       alert("Failed to update book");
     }
   };
+
+  const fetchBook = async () => {
+    const response = await axios.get(`http://localhost:8000/book/${id}`);
+    if (response.status === 200) {
+      const book = response.data.data;
+      setData({
+        ...book,
+        publishedAt: book.publishedAt ? book.publishedAt.split("T")[0] : "",
+      });
+    }
+  };
+
+  useEffect(() => {
+    fetchBook();
+  }, []);
   return (
     <>
       <Navbar />
@@ -57,6 +75,7 @@ const EditBook = () => {
             placeholder="Book Name"
             className="w-full border px-3 py-2 rounded"
             onChange={handleChange}
+            value={data.bookName}
           />
 
           <input
@@ -65,6 +84,7 @@ const EditBook = () => {
             placeholder="Author Name"
             className="w-full border px-3 py-2 rounded"
             onChange={handleChange}
+            value={data.authorName}
           />
 
           <input
@@ -73,6 +93,7 @@ const EditBook = () => {
             placeholder="Book Price"
             className="w-full border px-3 py-2 rounded"
             onChange={handleChange}
+            value={data.bookPrice}
           />
 
           <input
@@ -81,6 +102,7 @@ const EditBook = () => {
             placeholder="ISBN Number"
             className="w-full border px-3 py-2 rounded"
             onChange={handleChange}
+            value={data.isbnNumber}
           />
 
           <input
@@ -89,13 +111,16 @@ const EditBook = () => {
             placeholder="Publication"
             className="w-full border px-3 py-2 rounded"
             onChange={handleChange}
+            value={data.publication}
           />
 
           <input
             type="date"
+            id="publishedAt"
             name="publishedAt"
             className="w-full border px-3 py-2 rounded"
             onChange={handleChange}
+            value={data.publishedAt}
           />
 
           <input
