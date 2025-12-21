@@ -11,7 +11,9 @@ const SingleBook = () => {
 
   const fetchBook = async () => {
     try {
-      const res = await axios.get(`http://localhost:8000/book/${id}`);
+      const res = await axios.get(
+        `https://crud-mern2-0-1.onrender.com/book/${id}`
+      );
       if (res.status === 200) {
         setBook(res.data.data);
       }
@@ -36,7 +38,7 @@ const SingleBook = () => {
   const image = book.imageUrl?.startsWith("http")
     ? book.imageUrl
     : book.imageUrl
-    ? `http://localhost:8000/${book.imageUrl}`
+    ? `https://crud-mern2-0-1.onrender.com/${book.imageUrl}`
     : "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c";
 
   const handleDelete = async () => {

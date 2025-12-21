@@ -35,11 +35,15 @@ const EditBook = () => {
     }
 
     try {
-      await axios.patch(`http://localhost:8000/book/${id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await axios.patch(
+        `https://crud-mern2-0-1.onrender.com/book/${id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       navigate(`/book/${id}`);
     } catch (error) {
@@ -49,7 +53,9 @@ const EditBook = () => {
   };
 
   const fetchBook = async () => {
-    const response = await axios.get(`http://localhost:8000/book/${id}`);
+    const response = await axios.get(
+      `https://crud-mern2-0-1.onrender.com/book/${id}`
+    );
     if (response.status === 200) {
       const book = response.data.data;
       setData({

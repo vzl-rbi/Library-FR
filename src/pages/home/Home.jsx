@@ -8,7 +8,7 @@ const Home = () => {
 
   const fetchBooks = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/book");
+      const res = await axios.get("https://crud-mern2-0-1.onrender.com/book");
       setBooks(res.data.data);
     } catch (error) {
       console.error("Failed to fetch books", error);
