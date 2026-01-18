@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import { formatDate } from "../utils/date";
+import { backendUrl } from "../utils/config";
 
 const SingleBook = () => {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ const SingleBook = () => {
   const fetchBook = async () => {
     try {
       const res = await axios.get(
-        `https://crud-mern2-0-1.onrender.com/book/${id}`
+        `${backendUrl}/book/${id}` //used backendUrl instead of this https://crud-mern2-0-1.onrender.com
       );
       if (res.status === 200) {
         setBook(res.data.data);
